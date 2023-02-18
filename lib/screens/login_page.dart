@@ -14,6 +14,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   Future<void> onGoogleSingIn(AuthProvider authProvider) async {
+    bool isSuccess = await authProvider.handleGoogleSignIn();
+    String displayName = await authProvider.getUserDisplayName();
+    if(isSuccess){
+      openHome(displayName);
+    }
     /** TODO: Check if login via Google SignIn
      * 
      * if isSignIn = true => openHome(displayName)

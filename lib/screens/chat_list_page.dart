@@ -203,28 +203,78 @@ class _ChatListPageState extends State<ChatListPage> {
                                            * TODO: Implement UI
                                            */
                                           return TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ChatPage(
-                                                            peerId: userChat.id,
-                                                            peerAvatar: userChat
-                                                                .photoUrl,
-                                                            peerNickname:
-                                                                userChat
-                                                                    .displayName,
-                                                            userAvatar:
-                                                                FirebaseService()
-                                                                    .firebaseAuth
-                                                                    .currentUser!
-                                                                    .photoURL!,
-                                                          )));
-                                            },
-                                            child: Center(
-                                                child: Text('Index $index')),
-                                          );
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ChatPage(
+                                                              peerId:
+                                                                  userChat.id,
+                                                              peerAvatar:
+                                                                  userChat
+                                                                      .photoUrl,
+                                                              peerNickname:
+                                                                  userChat
+                                                                      .displayName,
+                                                              userAvatar:
+                                                                  FirebaseService()
+                                                                      .firebaseAuth
+                                                                      .currentUser!
+                                                                      .photoURL!,
+                                                            )));
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    child: Image.network(
+                                                      userChat.photoUrl,
+                                                      width: 40,
+                                                      height: 40,
+                                                      fit: BoxFit.cover,
+                                                      loadingBuilder: (BuildContext
+                                                              ctx,
+                                                          Widget child,
+                                                          ImageChunkEvent?
+                                                              loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) return child;
+                                                        return Center(
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color: AppColors
+                                                                .burgundy,
+                                                            value: loadingProgress
+                                                                            .expectedTotalBytes !=
+                                                                        null &&
+                                                                    loadingProgress
+                                                                            .expectedTotalBytes !=
+                                                                        null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    loadingProgress
+                                                                        .expectedTotalBytes!
+                                                                : null,
+                                                          ),
+                                                        );
+                                                      },
+                                                      errorBuilder: (context,
+                                                          object, stackTrace) {
+                                                        return const Icon(
+                                                          Icons.account_circle,
+                                                          size: 35,
+                                                          color: AppColors
+                                                              .greyColor,
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Text(
+                                                        userChat.displayName),
+                                                  ),
+                                                ],
+                                              ));
                                         });
                                   } else {
                                     return const Center(
